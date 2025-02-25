@@ -1,7 +1,8 @@
 import React from 'react'
+import TodoContainer from './components/TodoContainer'
 
 const App = () => {
-  return <div className="m-2 h-20 bg-sky-600 p-5"> App</div>
+  return <TodoContainer />
 }
 
 export default App
