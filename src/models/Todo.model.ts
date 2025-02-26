@@ -11,5 +11,12 @@ export interface TodoItem {
   todo: string
   completed?: boolean
   userId: number
-  status?: TodoStatus
+  status: TodoStatus
 }
+
+export interface DragAndDropContextInterface {
+  todosMap: TodosMapInterface
+  setTodosMap: React.Dispatch<React.SetStateAction<TodosMapInterface>>
+}
+
+export type TodosMapInterface = Map<TodoStatus, TodoItem[]>

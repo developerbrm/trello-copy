@@ -13,7 +13,7 @@ import {
   TodosMapInterface,
 } from '../models/Todo.model'
 import { fetchAllTodos } from '../redux/slices/todoSlice/thunks'
-import { useAppDispatch } from '../redux/store'
+import { useAppDispatch, useAppSelector } from '../redux/store'
 
 const defaultTodosMap: TodosMapInterface = new Map()
 
@@ -31,6 +31,7 @@ const DragAndDropContext =
 
 const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch()
+  const todos = useAppSelector((state) => state.todos.data)
 
   const [todosMap, setTodosMap] = useState<TodosMapInterface>(defaultTodosMap)
 
@@ -49,6 +50,23 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     dispatch(fetchAllTodos())
   }, [dispatch])
+
+  useEffect(() => {
+    if (!todos.length) return
+
+    setTodosMap((prevState) => {
+      const map = new Map(prevState)
+
+      todos.forEach((todo) => {
+        const todosArr = map.get(todo.status) ?? []
+        if (!todosArr.some((item) => item.id === todo.id)) {
+          map.set(todo.status, [...todosArr, todo])
+        }
+      })
+
+      return map
+    })
+  }, [todos])
 
   return (
     <DndContext
