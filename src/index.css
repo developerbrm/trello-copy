@@ -1,1 +1,32 @@
 @import 'tailwindcss';
+
+.bg-container {
+  @apply pointer-events-none fixed inset-0 -z-10 h-screen w-full w-screen overflow-auto bg-[var(--bg-color)];
+
+  --lines-color: theme('colors.zinc.800');
+  --bg-color: theme('colors.zinc.950');
+
+  background-image:
+    linear-gradient(
+      var(--lines-color) 0.5px,
+      transparent 0.5px,
+      transparent calc(100% - 0.5px),
+      var(--lines-color) calc(100% - 0.5px)
+    ),
+    linear-gradient(
+      90deg,
+      var(--lines-color) 0.5px,
+      transparent 0.5px,
+      transparent calc(100% - 0.5px),
+      var(--lines-color) calc(100% - 0.5px)
+    );
+  background-size: 100px 100px;
+  border: 0.5px solid var(--lines-color);
+}
+
+.bg-container::after {
+  @apply pointer-events-none absolute inset-0 h-full w-full;
+
+  content: '';
+  background: radial-gradient(transparent 0%, var(--bg-color) 65%);
+}
