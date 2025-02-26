@@ -1,48 +1,38 @@
-import React, { useEffect, useState } from 'react'
 import {
-  DndContext,
   closestCenter,
+  DndContext,
   KeyboardSensor,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
+import React, { createContext, useEffect, useMemo, useState } from 'react'
 import {
-  arrayMove,
-  SortableContext,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-import { useAppSelector } from '../redux/store'
-import { TodoItem } from '../redux/slices/todoSlice/interface'
+  DragAndDropContextInterface,
+  TodosMapInterface,
+} from '../models/Todo.model'
+import { fetchAllTodos } from '../redux/slices/todoSlice/thunks'
+import { useAppDispatch } from '../redux/store'
 
-function SortableItem({ todo }: { todo: TodoItem }) {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: todo.id })
+const defaultTodosMap: TodosMapInterface = new Map()
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }
+defaultTodosMap.set('pending', [])
+defaultTodosMap.set('completed', [])
+defaultTodosMap.set('in-progress', [])
 
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="m-5 my-2 rounded-sm bg-yellow-600 p-4 text-lg"
-    >
-      {todo.todo}
-    </div>
-  )
+const defaultContextValue = {
+  todosMap: defaultTodosMap,
+  setTodosMap: () => defaultTodosMap,
 }
 
-const DragAndDropProvider = () => {
-  const todos = useAppSelector((state) => state.todos.data)
-  const [myTodos, setMyTodos] = useState(todos)
+const DragAndDropContext =
+  createContext<DragAndDropContextInterface>(defaultContextValue)
+
+const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
+  const dispatch = useAppDispatch()
+
+  const [todosMap, setTodosMap] = useState<TodosMapInterface>(defaultTodosMap)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -51,9 +41,14 @@ const DragAndDropProvider = () => {
     })
   )
 
+  const contextValue = useMemo(
+    () => ({ todosMap, setTodosMap }),
+    [todosMap, setTodosMap]
+  )
+
   useEffect(() => {
-    setMyTodos(todos)
-  }, [todos])
+    dispatch(fetchAllTodos())
+  }, [dispatch])
 
   return (
     <DndContext
@@ -61,30 +56,23 @@ const DragAndDropProvider = () => {
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
     >
-      <SortableContext items={myTodos} strategy={verticalListSortingStrategy}>
-        {myTodos.map((todo) => (
-          <SortableItem key={todo.id} todo={todo} />
-        ))}
-      </SortableContext>
+      <DragAndDropContext.Provider value={contextValue}>
+        {children}
+      </DragAndDropContext.Provider>
     </DndContext>
   )
 
   function handleDragEnd(event) {
-    console.log(event)
     const { active, over } = event
 
-    if (active.id !== over.id) {
-      setMyTodos((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id)
-        const newIndex = items.findIndex((item) => item.id === over.id)
+    // if (active.id !== over.id) {
+    //   setItems((items) => {
+    //     const oldIndex = items.indexOf(active.id)
+    //     const newIndex = items.indexOf(over.id)
 
-        const data = arrayMove(items, oldIndex, newIndex)
-
-        console.log(data, oldIndex, newIndex)
-
-        return data
-      })
-    }
+    //     return arrayMove(items, oldIndex, newIndex)
+    //   })
+    // }
   }
 }
 
