@@ -28,5 +28,5 @@
   @apply pointer-events-none absolute inset-0 h-full w-full;
 
   content: '';
-  background: radial-gradient(transparent 0%, var(--bg-color) 65%);
+  background: radial-gradient(transparent 0%, var(--bg-color) 85%);
 }

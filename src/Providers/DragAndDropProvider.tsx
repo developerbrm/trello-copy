@@ -26,7 +26,7 @@ const defaultContextValue = {
   setTodosMap: () => defaultTodosMap,
 }
 
-const DragAndDropContext =
+export const DragAndDropContext =
   createContext<DragAndDropContextInterface>(defaultContextValue)
 
 const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
