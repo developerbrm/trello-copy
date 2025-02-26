@@ -17,7 +17,7 @@ export const todoSlice = createSlice({
     })
     builder.addCase(fetchAllTodos.fulfilled, (state, action) => {
       state.loading = false
-      state.data = action.payload
+      state.data = action?.payload || []
     })
     builder.addCase(fetchAllTodos.rejected, (state, action) => {
       state.data = []
