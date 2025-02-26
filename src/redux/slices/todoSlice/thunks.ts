@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { TodoItem } from './interface'
+import { TodoItem } from '../../../models/Todo.model'
 
 const TODOS_API_ENDPOINT = `https://dummyjson.com/todos`
 

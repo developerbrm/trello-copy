@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { createInitialState } from '../../../utilities'
-import { TodoState } from './interface'
 import { fetchAllTodos } from './thunks'
+import { TodoState } from '../../../models/Todo.model'
 
 const initialState: TodoState = createInitialState() as TodoState
 

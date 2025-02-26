@@ -1,4 +1,4 @@
-import { UiState } from '../../../utilities'
+import { UiState } from '../utilities'
 
 export interface TodoState extends UiState {
   data: TodoItem[]
