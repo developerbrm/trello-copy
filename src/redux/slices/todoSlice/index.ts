@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { createInitialState } from '../../../utilities'
+import { convertTodoItem, createInitialState } from '../../../utilities'
 import { fetchAllTodos, updateTodo } from './thunks'
 import { TodoState } from '../../../models/Todo.model'
 
@@ -32,8 +32,18 @@ export const todoSlice = createSlice({
       state.updateTodo.loading = true
     })
     builder.addCase(updateTodo.fulfilled, (state, action) => {
+      const newTodo = convertTodoItem(action?.payload) ?? []
+
       state.updateTodo.loading = false
-      state.updateTodo.data = action?.payload || []
+      state.updateTodo.data = newTodo
+
+      // update all todos
+      state.data = state.data.map((todo) => {
+        if (todo.id === newTodo?.id) {
+          return newTodo
+        }
+        return todo
+      })
     })
     builder.addCase(updateTodo.rejected, (state, action) => {
       state.updateTodo.data = []

@@ -60,3 +60,29 @@ export const findTodo = (id: string | null, todosMap: TodosMapInterface) => {
   const match = [...todosMap.values()].flat().find((todo) => todo.id === id)
   return match
 }
+
+export const convertTodoItem = (todo: TodoItem) => {
+  const obj = { ...todo }
+
+  obj.id = todo.id.toString()
+  obj.status = todo.completed ? 'completed' : 'pending'
+  delete obj.completed
+
+  return obj
+}
+
+const filterTodos = (todos: TodoItem[], status: TodoStatus) =>
+  todos.filter((t) => t.status === status)
+
+export const updateTodosMap = (
+  todos: TodoItem[],
+  prevMap: TodosMapInterface
+) => {
+  const map = new Map(prevMap)
+
+  map.set('pending', filterTodos(todos, 'pending'))
+  map.set('in-progress', filterTodos(todos, 'in-progress'))
+  map.set('completed', filterTodos(todos, 'completed'))
+
+  return map
+}
