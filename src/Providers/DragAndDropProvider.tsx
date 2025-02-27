@@ -7,33 +7,22 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
-import React, { createContext, useEffect, useMemo, useState } from 'react'
-import {
-  DragAndDropContextInterface,
-  TodosMapInterface,
-} from '../models/Todo.model'
+import React, { useEffect, useMemo, useState } from 'react'
+import UpdateTodoModal from '../components/UpdateTodoModal'
+import { TodosMapInterface } from '../models/Todo.model'
 import { fetchAllTodos } from '../redux/slices/todoSlice/thunks'
 import { useAppDispatch, useAppSelector } from '../redux/store'
-
-const defaultTodosMap: TodosMapInterface = new Map()
-
-defaultTodosMap.set('pending', [])
-defaultTodosMap.set('completed', [])
-defaultTodosMap.set('in-progress', [])
-
-const defaultContextValue = {
-  todosMap: defaultTodosMap,
-  setTodosMap: () => defaultTodosMap,
-}
-
-export const DragAndDropContext =
-  createContext<DragAndDropContextInterface>(defaultContextValue)
+import { defaultTodosMap, DragAndDropContext } from './DragAndDropContext'
 
 const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch()
   const todos = useAppSelector((state) => state.todos.data)
 
   const [todosMap, setTodosMap] = useState<TodosMapInterface>(defaultTodosMap)
+  const [showUpdateTodoModal, setShowUpdateTodoModal] = useState<boolean>(false)
+  const [currentSelectedTodoId, setCurrentSelectedTodoId] = useState<
+    string | null
+  >(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -43,8 +32,22 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   )
 
   const contextValue = useMemo(
-    () => ({ todosMap, setTodosMap }),
-    [todosMap, setTodosMap]
+    () => ({
+      todosMap,
+      setTodosMap,
+      showUpdateTodoModal,
+      setShowUpdateTodoModal,
+      currentSelectedTodoId,
+      setCurrentSelectedTodoId,
+    }),
+    [
+      todosMap,
+      setTodosMap,
+      showUpdateTodoModal,
+      setShowUpdateTodoModal,
+      currentSelectedTodoId,
+      setCurrentSelectedTodoId,
+    ]
   )
 
   useEffect(() => {
@@ -76,6 +79,8 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
     >
       <DragAndDropContext.Provider value={contextValue}>
         {children}
+
+        {showUpdateTodoModal && <UpdateTodoModal />}
       </DragAndDropContext.Provider>
     </DndContext>
   )

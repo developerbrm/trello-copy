@@ -3,6 +3,8 @@ import { CSS } from '@dnd-kit/utilities'
 import { TodoItem } from '../models/Todo.model'
 import { RxDragHandleDots1 } from 'react-icons/rx'
 import { MdModeEditOutline } from 'react-icons/md'
+import { useContext } from 'react'
+import { DragAndDropContext } from '../Providers/DragAndDropContext'
 
 interface TodoProps {
   todo: TodoItem
@@ -11,6 +13,8 @@ interface TodoProps {
 
 const Todo = (props: TodoProps) => {
   const { todo, todoClassName } = props
+  const { setCurrentSelectedTodoId, setShowUpdateTodoModal } =
+    useContext(DragAndDropContext)
 
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: todo.id })
@@ -18,6 +22,11 @@ const Todo = (props: TodoProps) => {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  }
+
+  const handleEditClick = () => {
+    setCurrentSelectedTodoId(todo.id)
+    setShowUpdateTodoModal(true)
   }
 
   return (
@@ -32,6 +41,7 @@ const Todo = (props: TodoProps) => {
 
         <div className="absolute right-0 flex h-full translate-x-1 items-center overflow-hidden bg-white/50 px-3 opacity-0 backdrop-blur-xs transition-all group-hover:translate-x-0 group-hover:opacity-100">
           <button
+            onClick={handleEditClick}
             name="edit"
             className="grid cursor-pointer place-content-center place-items-center rounded-full p-2 transition-colors hover:bg-white/80"
           >

@@ -1,9 +1,9 @@
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { useContext } from 'react'
 import { TodoStatus } from '../models/Todo.model'
-import { DragAndDropContext } from '../Providers/DragAndDropProvider'
 import { getSectionData } from '../utilities'
 import Todo from './Todo'
+import { DragAndDropContext } from '../Providers/DragAndDropContext'
 
 interface ITodoSection {
   status: TodoStatus

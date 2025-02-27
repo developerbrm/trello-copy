@@ -53,3 +53,10 @@ export const getSectionData = (
 
   return obj[status]
 }
+
+export const findTodo = (id: string | null, todosMap: TodosMapInterface) => {
+  if (!id) return
+
+  const match = [...todosMap.values()].flat().find((todo) => todo.id === id)
+  return match
+}
