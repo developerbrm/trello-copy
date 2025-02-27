@@ -21,15 +21,14 @@ const TodoSection = (props: ITodoSection) => {
   return (
     <SortableContext items={todos} strategy={verticalListSortingStrategy}>
       <div
-        className={`${sectionClassName} rounded-lg bg-gradient-to-br p-3 shadow`}
+        className={`${sectionClassName} max-h-[80vh] overflow-auto rounded-lg bg-gradient-to-br shadow-md`}
       >
-        <h3 className="my-2 mb-4 text-2xl font-bold text-white/90">
+        <h3 className="sticky top-0 z-10 p-3 text-2xl font-bold text-white">
           <span>{heading}</span>
-
           <hr className="my-2 rounded-full border-0 ring ring-white/50" />
         </h3>
 
-        <div className="grid gap-4">
+        <div className="grid gap-2 p-3 pt-0">
           {todos.map((todo) => (
             <Todo key={todo.id} todo={todo} todoClassName={todoClassName} />
           ))}

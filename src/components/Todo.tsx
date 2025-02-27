@@ -25,7 +25,7 @@ const Todo = (props: TodoProps) => {
       style={style}
       {...attributes}
       {...listeners}
-      className={`${todoClassName} rounded-lg p-4 py-2 text-lg shadow-lg`}
+      className={`${todoClassName} text-md rounded-lg p-4 py-2 shadow-lg`}
     >
       {todo.todo}
     </div>
