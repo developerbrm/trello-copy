@@ -1,5 +1,6 @@
 import TodoContainer from './components/TodoContainer'
 import DragAndDropProvider from './Providers/DragAndDropProvider'
+import ToastProvider from './Providers/ToastProvider'
 
 const App = () => {
   return (
@@ -8,6 +9,7 @@ const App = () => {
         <TodoContainer />
       </DragAndDropProvider>
 
+      <ToastProvider />
       <div className="bg-container"></div>
     </main>
   )
