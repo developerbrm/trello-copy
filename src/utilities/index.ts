@@ -18,6 +18,7 @@ interface ISectionData {
     heading: string
     sectionClassName: string
     todoClassName: string
+    sectionHeadingClassName: string
   }
 }
 
@@ -29,20 +30,24 @@ export const getSectionData = (
     pending: {
       todos: todosMap.get('pending') ?? [],
       heading: 'Pending',
-      sectionClassName: 'from-orange-500 via-orange-600 to-orange-800',
+      sectionClassName: 'ring-orange-600 ',
       todoClassName: 'bg-orange-200 text-orange-900',
+      sectionHeadingClassName: 'from-orange-600 via-orange-400 to-orange-900',
     },
     completed: {
       todos: todosMap.get('completed') ?? [],
       heading: 'Completed',
-      sectionClassName: 'from-emerald-500 via-emerald-600 to-emerald-800',
+      sectionClassName: 'ring-emerald-600',
       todoClassName: 'bg-emerald-200 text-emerald-900',
+      sectionHeadingClassName:
+        'from-emerald-600 via-emerald-400 to-emerald-900',
     },
     'in-progress': {
       todos: todosMap.get('in-progress') ?? [],
       heading: 'In Progress',
-      sectionClassName: 'from-indigo-500 via-indigo-600 to-indigo-800',
+      sectionClassName: 'ring-indigo-600',
       todoClassName: 'bg-indigo-200 text-indigo-900',
+      sectionHeadingClassName: 'from-indigo-600 via-indigo-400 to-indigo-900',
     },
   }
 

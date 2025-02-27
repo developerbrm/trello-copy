@@ -13,25 +13,36 @@ const TodoSection = (props: ITodoSection) => {
   const { status } = props
   const { todosMap } = useContext(DragAndDropContext)
 
-  const { todos, heading, sectionClassName, todoClassName } = getSectionData(
-    status,
-    todosMap
-  )
+  const {
+    todos,
+    heading,
+    sectionClassName,
+    sectionHeadingClassName,
+    todoClassName,
+  } = getSectionData(status, todosMap)
 
   return (
     <SortableContext items={todos} strategy={verticalListSortingStrategy}>
       <div
-        className={`${sectionClassName} max-h-[80vh] overflow-auto rounded-lg bg-gradient-to-br shadow-md`}
+        className={`${sectionHeadingClassName} rounded-lg bg-gradient-to-br p-2 shadow-md`}
       >
-        <h3 className="sticky top-0 z-10 p-3 text-2xl font-bold text-white">
-          <span>{heading}</span>
-          <hr className="my-2 rounded-full border-0 ring ring-white/50" />
-        </h3>
+        <div
+          className={`${sectionClassName} h-full w-full rounded-lg bg-white backdrop-blur-sm`}
+        >
+          <div className="mb-3 grid max-h-[80vh] w-full gap-2 overflow-auto">
+            <h3
+              className={`${sectionHeadingClassName} sticky top-0 z-10 bg-gradient-to-r bg-clip-text pb-0 text-3xl font-bold text-transparent backdrop-blur-2xl`}
+            >
+              <div className="m-3">{heading}</div>
+              <hr
+                className={`${sectionHeadingClassName} my-1 h-0.5 border-0 bg-gradient-to-r opacity-20`}
+              />
+            </h3>
 
-        <div className="grid gap-2 p-3 pt-0">
-          {todos.map((todo) => (
-            <Todo key={todo.id} todo={todo} todoClassName={todoClassName} />
-          ))}
+            {todos.map((todo) => (
+              <Todo key={todo.id} todo={todo} todoClassName={todoClassName} />
+            ))}
+          </div>
         </div>
       </div>
     </SortableContext>

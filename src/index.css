@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+
 @import 'tailwindcss';
+
+body,
+html {
+  font-family: 'Lato', serif;
+}
 
 .bg-container {
   @apply pointer-events-none fixed inset-0 -z-10 h-screen w-full w-screen overflow-auto bg-[var(--bg-color)];
