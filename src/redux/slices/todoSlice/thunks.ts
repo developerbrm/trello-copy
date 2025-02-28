@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { TodoItem, TodoStatus } from '../../../models/Todo.model'
 import { toast } from 'react-toastify'
-import { convertTodoItem } from '../../../utilities'
+import { convertTodoItem, getErrorMessage } from '../../../utilities'
 
 const TODOS_API_ENDPOINT = `https://dummyjson.com/todos`
 
@@ -14,6 +14,8 @@ export const fetchAllTodos = createAsyncThunk('todos/fetchAllTodos', async () =>
     )
     .catch((err) => {
       console.log(err)
+
+      toast.error(getErrorMessage(err))
       return Promise.reject(Error(err))
     })
 )
@@ -40,7 +42,7 @@ export const updateTodo = createAsyncThunk(
       .catch((err) => {
         console.log(err)
 
-        toast.error(err.data?.message ?? 'Something went wrong')
+        toast.error(getErrorMessage(err))
         return Promise.reject(Error(err))
       })
 )
@@ -69,7 +71,7 @@ export const addTodo = createAsyncThunk(
       .catch((err) => {
         console.log(err)
 
-        toast.error(err?.message ?? 'Something went wrong')
+        toast.error(getErrorMessage(err))
         return Promise.reject(Error(err))
       })
 )

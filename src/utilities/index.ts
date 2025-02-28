@@ -80,7 +80,6 @@ export const convertTodoItem = (
   obj.id = todo.id.toString()
   obj.status = todo.completed ? 'completed' : 'pending'
   obj.dragId = `dragId-${obj.id}`
-  console.log(obj, manualStatus)
 
   if (isPayload) {
     obj.completed = obj.status === 'completed'
@@ -124,3 +123,16 @@ export const findTodoIndex = (
   todos: TodoItem[],
   key: 'id' | 'dragId'
 ) => todos.findIndex((todo) => todo[key] === id)
+
+export const getErrorMessage = (err: {
+  message?: string
+  data?: { message: string }
+  response?: { data?: { message: string } }
+}) => {
+  return (
+    err?.response?.data?.message ??
+    err?.message ??
+    err.data?.message ??
+    'Something went wrong'
+  )
+}

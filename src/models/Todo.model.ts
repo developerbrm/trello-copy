@@ -10,7 +10,7 @@ export interface TodoState extends UiState {
 export type TodoStatus = 'pending' | 'in-progress' | 'completed'
 
 export interface TodoItem {
-  id: string
+  id: string | number
   todo: string
   completed?: boolean
   userId?: string
