@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { convertTodoItem, createInitialState } from '../../../utilities'
+import {
+  convertTodoItem,
+  createInitialState,
+  findTodoIndex,
+} from '../../../utilities'
 import { addTodo, fetchAllTodos, updateTodo } from './thunks'
 import { TodoItem, TodoState, TodoStatus } from '../../../models/Todo.model'
 
@@ -120,6 +124,13 @@ export const todoSlice = createSlice({
         state.addTodo.data = newTodo
 
         if (!action.payload.updateRedux) return
+
+        const matchFound = findTodoIndex(newTodo.id, state.data, 'id') !== -1
+
+        if (matchFound) {
+          newTodo.id = crypto.randomUUID()
+          newTodo.dragId = crypto.randomUUID()
+        }
 
         // console.log(newTodo, action.payload)
 
