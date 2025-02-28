@@ -12,7 +12,10 @@ export const fetchAllTodos = createAsyncThunk('todos/fetchAllTodos', async () =>
     .then((res) =>
       (res.data.todos as TodoItem[]).map((todo) => convertTodoItem(todo, false))
     )
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      return Promise.reject(Error(err))
+    })
 )
 
 export const updateTodo = createAsyncThunk(
