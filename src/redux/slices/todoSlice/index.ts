@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { convertTodoItem, createInitialState } from '../../../utilities'
 import { fetchAllTodos, updateTodo } from './thunks'
 import { TodoItem, TodoState } from '../../../models/Todo.model'
@@ -39,14 +39,27 @@ export const todoSlice = createSlice({
       updateTodo.fulfilled,
       (
         state,
-        action: { payload: { data: TodoItem; updateRedux: boolean } }
+        action: PayloadAction<
+          void | { data: any; updateRedux: boolean },
+          string,
+          {
+            arg: {
+              todo: TodoItem
+              callback?: (() => void) | undefined
+              updateRedux?: boolean | undefined
+            }
+            requestId: string
+            requestStatus: 'fulfilled'
+          },
+          never
+        >
       ) => {
+        if (!action.payload) return
+
         const newTodo = convertTodoItem(action?.payload.data, true) ?? []
 
         state.updateTodo.loading = false
         state.updateTodo.data = newTodo
-
-        console.log(action.payload)
 
         if (!action.payload.updateRedux) return
         // update all todos
