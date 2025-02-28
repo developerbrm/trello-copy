@@ -45,7 +45,9 @@ const UpdateTodoModal = (props: IUpdateTodoModal) => {
     setCurrentSelectedContainerId(null)
   }
 
-  const handleUpdate = () => {
+  const handleUpdate = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     if (showUpdateTodoModal === 'add' && currentSelectedContainerId) {
       const payload: TodoItem = {
         todo: value,
@@ -95,8 +97,8 @@ const UpdateTodoModal = (props: IUpdateTodoModal) => {
       >
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl ring ring-zinc-300 transition-all sm:my-8 sm:w-full sm:max-w-lg">
-            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-              <div className="">
+            <form onSubmit={handleUpdate}>
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <h3
                     className="text-base font-semibold text-gray-900"
@@ -117,33 +119,32 @@ const UpdateTodoModal = (props: IUpdateTodoModal) => {
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-              <button
-                type="button"
-                disabled={isLoading}
-                className="inline-flex w-full cursor-pointer justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-blue-500 sm:ml-3 sm:w-auto"
-                onClick={handleUpdate}
-              >
-                <div className="relative grid place-content-center place-items-center">
-                  <Spinner
-                    className={`absolute inset-0 mx-auto aspect-square w-4 transition-all ${isLoading ? 'opacity-100' : 'opacity-0'}`}
-                  />
-                  <span
-                    className={`${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
-                  >
-                    {showUpdateTodoModal === 'add' ? 'Add' : 'Update'}
-                  </span>
-                </div>
-              </button>
-              <button
-                onClick={closeModal}
-                type="button"
-                className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 transition-colors ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
-              >
-                Cancel
-              </button>
-            </div>
+              <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="inline-flex w-full cursor-pointer justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                >
+                  <div className="relative grid place-content-center place-items-center">
+                    <Spinner
+                      className={`absolute inset-0 mx-auto aspect-square w-4 transition-all ${isLoading ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    <span
+                      className={`${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+                    >
+                      {showUpdateTodoModal === 'add' ? 'Add' : 'Update'}
+                    </span>
+                  </div>
+                </button>
+                <button
+                  onClick={closeModal}
+                  type="button"
+                  className="mt-3 inline-flex w-full cursor-pointer justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 transition-colors ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
