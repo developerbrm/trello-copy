@@ -70,21 +70,28 @@ export const findTodo = (
   return match
 }
 
-export const convertTodoItem = (todo: TodoItem, isPayload = false) => {
+export const convertTodoItem = (
+  todo: TodoItem,
+  isPayload = false,
+  manualStatus?: TodoStatus
+) => {
   const obj = { ...todo }
 
   obj.id = todo.id.toString()
   obj.status = todo.completed ? 'completed' : 'pending'
   obj.dragId = `dragId-${obj.id}`
+  console.log(obj, manualStatus)
 
   if (isPayload) {
     obj.completed = obj.status === 'completed'
 
     delete obj.dragId
     delete obj.status
+  } else {
+    delete obj.completed
   }
 
-  delete obj.completed
+  if (manualStatus) obj.status = manualStatus
 
   return obj
 }

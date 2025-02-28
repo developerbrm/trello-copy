@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-import { TodoItem } from '../../../models/Todo.model'
+import { TodoItem, TodoStatus } from '../../../models/Todo.model'
 import { toast } from 'react-toastify'
 import { convertTodoItem } from '../../../utilities'
 
@@ -51,10 +51,12 @@ export const addTodo = createAsyncThunk(
     todo,
     callback,
     updateRedux = true,
+    currentSelectedContainerId,
   }: {
     todo: TodoItem
     callback?: () => void
     updateRedux?: boolean
+    currentSelectedContainerId?: TodoStatus
   }) =>
     axios
       .post(`${TODOS_API_ENDPOINT}/add`, convertTodoItem(todo, true))
@@ -62,7 +64,7 @@ export const addTodo = createAsyncThunk(
         callback?.()
 
         toast.success('Todo created successfully')
-        return { data: res.data, updateRedux }
+        return { data: res.data, updateRedux, currentSelectedContainerId }
       })
       .catch((err) => {
         console.log(err)

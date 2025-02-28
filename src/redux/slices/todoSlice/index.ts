@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { convertTodoItem, createInitialState } from '../../../utilities'
 import { addTodo, fetchAllTodos, updateTodo } from './thunks'
-import { TodoItem, TodoState } from '../../../models/Todo.model'
+import { TodoItem, TodoState, TodoStatus } from '../../../models/Todo.model'
 
 const initialState: TodoState = createInitialState() as TodoState
 
@@ -57,12 +57,13 @@ export const todoSlice = createSlice({
       ) => {
         if (!action.payload) return
 
-        const newTodo = convertTodoItem(action?.payload.data, true) ?? []
+        const newTodo = convertTodoItem(action?.payload.data, false) ?? []
 
         state.updateTodo.loading = false
         state.updateTodo.data = newTodo
 
         if (!action.payload.updateRedux) return
+
         // update all todos
         state.data = state.data.map((todo) => {
           if (todo.id === newTodo?.id) {
@@ -87,13 +88,18 @@ export const todoSlice = createSlice({
       (
         state,
         action: PayloadAction<
-          void | { data: any; updateRedux: boolean },
+          void | {
+            data: any
+            updateRedux: boolean
+            currentSelectedContainerId: TodoStatus
+          },
           string,
           {
             arg: {
               todo: TodoItem
               callback?: (() => void) | undefined
               updateRedux?: boolean | undefined
+              currentSelectedContainerId?: TodoStatus
             }
             requestId: string
             requestStatus: 'fulfilled'
@@ -103,19 +109,22 @@ export const todoSlice = createSlice({
       ) => {
         if (!action.payload) return
 
-        const newTodo = convertTodoItem(action?.payload.data, true) ?? []
+        const newTodo =
+          convertTodoItem(
+            action?.payload.data,
+            false,
+            action.payload.currentSelectedContainerId
+          ) ?? []
 
         state.addTodo.loading = false
         state.addTodo.data = newTodo
 
         if (!action.payload.updateRedux) return
-        // update all todos
-        state.data = state.data.map((todo) => {
-          if (todo.id === newTodo?.id) {
-            return newTodo
-          }
-          return todo
-        })
+
+        // console.log(newTodo, action.payload)
+
+        // add new todo
+        state.data = [...state.data, newTodo]
       }
     )
     builder.addCase(addTodo.rejected, (state, action) => {

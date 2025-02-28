@@ -56,7 +56,14 @@ const UpdateTodoModal = (props: IUpdateTodoModal) => {
         userId: todos[0]?.userId,
       }
 
-      dispatch(addTodo({ todo: payload, callback }))
+      dispatch(
+        addTodo({
+          todo: payload,
+          callback,
+          updateRedux: true,
+          currentSelectedContainerId,
+        })
+      )
 
       return
     }
@@ -69,7 +76,7 @@ const UpdateTodoModal = (props: IUpdateTodoModal) => {
         todo: value,
       }
 
-      dispatch(updateTodo({ todo: payload, callback }))
+      dispatch(updateTodo({ todo: payload, callback, updateRedux: true }))
     }
   }
 
