@@ -1,3 +1,4 @@
+import { UniqueIdentifier } from '@dnd-kit/core'
 import { TodoItem, TodosMapInterface, TodoStatus } from '../models/Todo.model'
 
 export type UiState = {
@@ -54,19 +55,31 @@ export const getSectionData = (
   return obj[status]
 }
 
-export const findTodo = (id: string | null, todosMap: TodosMapInterface) => {
-  if (!id) return
+export const findTodo = (
+  id: string | null | UniqueIdentifier,
+  todosMapOrArr: TodosMapInterface | TodoItem[],
+  key: 'id' | 'dragId' = 'id'
+) => {
+  if (!key) return
 
-  const match = [...todosMap.values()].flat().find((todo) => todo.id === id)
+  const arr = Array.isArray(todosMapOrArr)
+    ? [todosMapOrArr]
+    : [...todosMapOrArr.values()]
+
+  const match = arr.flat().find((todo: TodoItem) => todo[key] === id)
   return match
 }
 
-export const convertTodoItem = (todo: TodoItem) => {
+export const convertTodoItem = (todo: TodoItem, isPayload = false) => {
   const obj = { ...todo }
 
   obj.id = todo.id.toString()
   obj.status = todo.completed ? 'completed' : 'pending'
   delete obj.completed
+
+  if (!isPayload) {
+    obj.dragId = `dragId-${obj.id}`
+  }
 
   return obj
 }
@@ -86,3 +99,16 @@ export const updateTodosMap = (
 
   return map
 }
+
+export const getContainerIds = (todosMap: TodosMapInterface) => [
+  ...todosMap.keys(),
+]
+
+export const getItemIds = (todosMap: TodosMapInterface, status: TodoStatus) =>
+  todosMap?.get(status)?.map((todo) => todo.dragId ?? '') ?? []
+
+export const findTodoIndex = (
+  id: string | UniqueIdentifier,
+  todos: TodoItem[],
+  key: 'id' | 'dragId'
+) => todos.findIndex((todo) => todo[key] === id)

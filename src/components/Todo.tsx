@@ -16,8 +16,19 @@ const Todo = (props: TodoProps) => {
   const { setCurrentSelectedTodoId, setShowUpdateTodoModal } =
     useContext(DragAndDropContext)
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: todo.id })
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: todo.dragId,
+    data: {
+      type: 'item',
+    },
+  })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -34,7 +45,7 @@ const Todo = (props: TodoProps) => {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      className={`${todoClassName} text-md group mx-3 rounded-lg shadow-sm`}
+      className={`${todoClassName} ${isDragging ? 'opacity-50' : ''} text-md group mx-3 rounded-lg shadow-sm transition-opacity`}
     >
       <div className="relative grid grid-cols-1">
         <span className="p-3 py-2">{todo.todo}</span>

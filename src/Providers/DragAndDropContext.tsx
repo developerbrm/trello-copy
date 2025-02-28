@@ -17,6 +17,7 @@ const defaultContextValue = {
   setShowUpdateTodoModal: () => false,
   currentSelectedTodoId: null,
   setCurrentSelectedTodoId: () => null,
+  dragActiveId: null,
 }
 
 export const DragAndDropContext =

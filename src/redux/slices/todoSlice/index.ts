@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { convertTodoItem, createInitialState } from '../../../utilities'
 import { fetchAllTodos, updateTodo } from './thunks'
-import { TodoState } from '../../../models/Todo.model'
+import { TodoItem, TodoState } from '../../../models/Todo.model'
 
 const initialState: TodoState = createInitialState() as TodoState
 
@@ -11,7 +11,11 @@ initialState.updateTodo = createInitialState()
 export const todoSlice = createSlice({
   name: 'todos',
   initialState,
-  reducers: {},
+  reducers: {
+    updateTodoReduxData: (state, action: { payload: TodoItem[] }) => {
+      state.data = action.payload
+    },
+  },
   extraReducers: (builder) => {
     // fetch all todos
     builder.addCase(fetchAllTodos.pending, (state, action) => {
@@ -31,20 +35,29 @@ export const todoSlice = createSlice({
     builder.addCase(updateTodo.pending, (state, action) => {
       state.updateTodo.loading = true
     })
-    builder.addCase(updateTodo.fulfilled, (state, action) => {
-      const newTodo = convertTodoItem(action?.payload) ?? []
+    builder.addCase(
+      updateTodo.fulfilled,
+      (
+        state,
+        action: { payload: { data: TodoItem; updateRedux: boolean } }
+      ) => {
+        const newTodo = convertTodoItem(action?.payload.data, true) ?? []
 
-      state.updateTodo.loading = false
-      state.updateTodo.data = newTodo
+        state.updateTodo.loading = false
+        state.updateTodo.data = newTodo
 
-      // update all todos
-      state.data = state.data.map((todo) => {
-        if (todo.id === newTodo?.id) {
-          return newTodo
-        }
-        return todo
-      })
-    })
+        console.log(action.payload)
+
+        if (!action.payload.updateRedux) return
+        // update all todos
+        state.data = state.data.map((todo) => {
+          if (todo.id === newTodo?.id) {
+            return newTodo
+          }
+          return todo
+        })
+      }
+    )
     builder.addCase(updateTodo.rejected, (state, action) => {
       state.updateTodo.data = []
       state.updateTodo.loading = false
@@ -53,6 +66,6 @@ export const todoSlice = createSlice({
   },
 })
 
-export const {} = todoSlice.actions
+export const { updateTodoReduxData } = todoSlice.actions
 
 export default todoSlice.reducer

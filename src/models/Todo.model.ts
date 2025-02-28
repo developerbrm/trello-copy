@@ -1,3 +1,4 @@
+import { UniqueIdentifier } from '@dnd-kit/core'
 import { UiState } from '../utilities'
 
 export interface TodoState extends UiState {
@@ -13,6 +14,7 @@ export interface TodoItem {
   completed?: boolean
   userId: number
   status: TodoStatus
+  dragId?: UniqueIdentifier
 }
 
 export interface DragAndDropContextInterface {
@@ -22,6 +24,9 @@ export interface DragAndDropContextInterface {
   setShowUpdateTodoModal: React.Dispatch<React.SetStateAction<boolean>>
   currentSelectedTodoId: null | string
   setCurrentSelectedTodoId: React.Dispatch<React.SetStateAction<string | null>>
+  dragActiveId: UniqueIdentifier | null
 }
 
 export type TodosMapInterface = Map<TodoStatus, TodoItem[]>
+
+export type DragItemType = 'container' | 'item'

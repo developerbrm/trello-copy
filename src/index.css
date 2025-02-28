@@ -8,7 +8,7 @@ html {
 }
 
 .bg-container {
-  @apply pointer-events-none fixed inset-0 -z-10 h-screen w-full w-screen overflow-auto bg-[var(--bg-color)];
+  @apply pointer-events-none fixed inset-0 -z-10 h-screen w-full overflow-auto bg-[var(--bg-color)];
 
   --lines-color: theme('colors.zinc.800');
   --bg-color: theme('colors.zinc.200');
