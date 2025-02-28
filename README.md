@@ -1,50 +1,73 @@
-# React + TypeScript + Vite
+# Trello Copy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a Trello-like application built with React and TypeScript, featuring drag-and-drop functionality using the `@dnd-kit` library. The app allows users to manage tasks across different statuses, such as "Pending", "In Progress", and "Completed".
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Drag and Drop**: Rearrange tasks within and across sections using drag-and-drop.
+- **Task Management**: Add, update, and delete tasks.
+- **Responsive Design**: Built with Tailwind CSS for responsive and modern UI.
+- **State Management**: Utilizes Redux for state management.
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. Clone the repository:
 
-- Configure the top-level `parserOptions` property like this:
+   ```bash
+   git clone https://github.com/developerbrm/trello-copy.git
+   cd trello-copy
+   ```
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+2. Install dependencies:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+   ```bash
+   npm install
+   ```
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+3. Start the development server:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```bash
+   npm run dev
+   ```
+
+   The application will be available at `http://localhost:5173/trello-copy/`.
+
+## Deployment
+
+To deploy the application, build it and deploy the `dist` directory:
+
+1. Build for production:
+
+   ```bash
+   npm run build
+   ```
+
+2. Deploy the `dist` directory to your preferred hosting service.
+
+## Scripts
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the app for production.
+- `npm run lint`: Lints the codebase using ESLint.
+- `npm run preview`: Previews the production build.
+- `npm run deploy`: Deploys the app to GitHub Pages.
+
+## Dependencies
+
+- React 19.0.0
+- Redux 5.0.0
+- @dnd-kit/core 6.3.1
+- Tailwind CSS 4.0.8
+- TypeScript 5.7.2
+
+## Development
+
+The project uses Vite for development and build processes. It supports hot module replacement for a fast development experience.
+
+## Contributing
+
+Contributions are welcome! Please fork the repository and submit a pull request for any feature requests or bug fixes.
+
+## License
+
+This project is licensed under the MIT License.
