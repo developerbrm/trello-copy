@@ -22,7 +22,12 @@ import {
 import { fetchAllTodos, updateTodo } from '../redux/slices/todoSlice/thunks'
 import { useAppDispatch, useAppSelector } from '../redux/store'
 import { defaultTodosMap, DragAndDropContext } from './DragAndDropContext'
-import { findTodo, findTodoIndex, updateTodosMap } from '../utilities'
+import {
+  findTodo,
+  findTodoIndex,
+  getContainerIds,
+  updateTodosMap,
+} from '../utilities'
 import { updateTodoReduxData } from '../redux/slices/todoSlice'
 
 const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
@@ -86,17 +91,17 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (!over || !active || active.id === over.id) return
 
-    const activeItemType: DragItemType = active.data.current?.type
-    const overItemType: DragItemType = over.data.current?.type
-
     const activeItemDragId = active.id
     const overItemDragId = over.id
 
-    // items sorting
-    if (activeItemType === 'item' && overItemType === 'item') {
-      const activeItem = findTodo(activeItemDragId, todos, 'dragId')
-      const overItem = findTodo(overItemDragId, todos, 'dragId')
+    const activeItem = findTodo(activeItemDragId, todos, 'dragId')
+    const overItem = findTodo(overItemDragId, todos, 'dragId')
+    const finalStatus = getContainerIds(todosMap).includes(over.id)
+      ? over.id
+      : overItem?.status
 
+    //  sorting in same section
+    if (activeItem?.status === overItem?.status) {
       if (!activeItem?.dragId || !overItem?.dragId) return
 
       const oldIndex = findTodoIndex(activeItem.dragId, todos, 'dragId')
@@ -106,8 +111,6 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch(updateTodoReduxData(newTodos))
     } else {
       // move item to another section
-      const activeItem = findTodo(activeItemDragId, todos, 'dragId')
-      const finalStatus: TodoStatus = overItemDragId as TodoStatus
 
       if (!activeItem?.id || !finalStatus) return
 
@@ -122,7 +125,7 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
 
       dispatch(updateTodoReduxData(newTodos))
 
-      if (finalStatus !== 'in-progress' && activeItem.status !== finalStatus) {
+      if (activeItem.status !== finalStatus) {
         dispatch(updateTodo({ todo: payload, updateRedux: false }))
       }
     }
