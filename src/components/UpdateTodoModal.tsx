@@ -6,7 +6,13 @@ import { updateTodo } from '../redux/slices/todoSlice/thunks'
 import { TodoItem } from '../models/Todo.model'
 import Spinner from './Spinner'
 
-const UpdateTodoModal = () => {
+interface IUpdateTodoModal {
+  showUpdateTodoModal: 'add' | 'edit' | null
+}
+
+const UpdateTodoModal = (props: IUpdateTodoModal) => {
+  const { showUpdateTodoModal } = props
+
   const dispatch = useAppDispatch()
   const updateTodoState = useAppSelector((state) => state.todos.updateTodo)
 
@@ -21,7 +27,7 @@ const UpdateTodoModal = () => {
 
   const closeModal = () => {
     setCurrentSelectedTodoId(null)
-    setShowUpdateTodoModal(false)
+    setShowUpdateTodoModal(null)
   }
 
   const handleUpdate = () => {
@@ -50,12 +56,12 @@ const UpdateTodoModal = () => {
 
   return (
     <div
-      className="relative z-10"
+      className={`${showUpdateTodoModal ? '' : 'pointer-events-none opacity-0'} relative z-10 transition-all`}
       aria-labelledby="modal-title"
       aria-modal="true"
     >
       <div
-        className="fixed inset-0 bg-gray-500/75 transition-opacity"
+        className={`${showUpdateTodoModal ? 'bg-white/10 backdrop-blur-sm' : 'backdrop-blur-none'} fixed inset-0 transition-all delay-75 ease-in`}
         aria-hidden="true"
       ></div>
 

@@ -145,7 +145,7 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
       <DragAndDropContext.Provider value={contextValue}>
         {children}
 
-        {showUpdateTodoModal && <UpdateTodoModal />}
+        <UpdateTodoModal showUpdateTodoModal={showUpdateTodoModal} />
       </DragAndDropContext.Provider>
     </DndContext>
   )
