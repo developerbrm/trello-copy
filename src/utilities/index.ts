@@ -75,11 +75,16 @@ export const convertTodoItem = (todo: TodoItem, isPayload = false) => {
 
   obj.id = todo.id.toString()
   obj.status = todo.completed ? 'completed' : 'pending'
-  delete obj.completed
+  obj.dragId = `dragId-${obj.id}`
 
-  if (!isPayload) {
-    obj.dragId = `dragId-${obj.id}`
+  if (isPayload) {
+    obj.completed = obj.status === 'completed'
+
+    delete obj.dragId
+    delete obj.status
   }
+
+  delete obj.completed
 
   return obj
 }

@@ -13,10 +13,12 @@ defaultTodosMap.set('in-progress', [])
 const defaultContextValue = {
   todosMap: defaultTodosMap,
   setTodosMap: () => defaultTodosMap,
-  showUpdateTodoModal: false,
+  showUpdateTodoModal: null,
   setShowUpdateTodoModal: () => false,
   currentSelectedTodoId: null,
   setCurrentSelectedTodoId: () => null,
+  currentSelectedContainerId: null,
+  setCurrentSelectedContainerId: () => null,
   dragActiveId: null,
 }
 

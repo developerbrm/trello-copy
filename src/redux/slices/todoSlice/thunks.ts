@@ -27,16 +27,44 @@ export const updateTodo = createAsyncThunk(
     updateRedux?: boolean
   }) =>
     axios
-      .put(`${TODOS_API_ENDPOINT}/${todo.id}`, todo)
+      .put(`${TODOS_API_ENDPOINT}/${todo.id}`, convertTodoItem(todo, true))
       .then((res) => {
         callback?.()
 
-        toast.success('Todo updated successfully')
+        toast.success(`Todo updated successfully`)
         return { data: res.data, updateRedux }
       })
       .catch((err) => {
         console.log(err)
 
-        toast.error('Something went wrong')
+        toast.error(err.data?.message ?? 'Something went wrong')
+        return Promise.reject(Error(err))
+      })
+)
+
+export const addTodo = createAsyncThunk(
+  'todos/addTodo',
+  async ({
+    todo,
+    callback,
+    updateRedux = true,
+  }: {
+    todo: TodoItem
+    callback?: () => void
+    updateRedux?: boolean
+  }) =>
+    axios
+      .post(`${TODOS_API_ENDPOINT}/add`, convertTodoItem(todo, true))
+      .then((res) => {
+        callback?.()
+
+        toast.success('Todo created successfully')
+        return { data: res.data, updateRedux }
+      })
+      .catch((err) => {
+        console.log(err)
+
+        toast.error(err?.message ?? 'Something went wrong')
+        return Promise.reject(Error(err))
       })
 )

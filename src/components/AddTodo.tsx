@@ -19,10 +19,12 @@ const extraClasses = {
 const AddTodo = (props: IProps) => {
   const { status } = props
 
-  const { setShowUpdateTodoModal } = useContext(DragAndDropContext)
+  const { setShowUpdateTodoModal, setCurrentSelectedContainerId } =
+    useContext(DragAndDropContext)
 
   const handleAddClick = () => {
     setShowUpdateTodoModal('add')
+    setCurrentSelectedContainerId(status)
   }
 
   return (

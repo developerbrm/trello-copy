@@ -41,6 +41,8 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentSelectedTodoId, setCurrentSelectedTodoId] = useState<
     string | null
   >(null)
+  const [currentSelectedContainerId, setCurrentSelectedContainerId] =
+    useState<TodoStatus | null>(null)
 
   const [dragActiveId, setDragActiveId] = useState<UniqueIdentifier | null>(
     null
@@ -62,6 +64,8 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
       currentSelectedTodoId,
       setCurrentSelectedTodoId,
       dragActiveId,
+      currentSelectedContainerId,
+      setCurrentSelectedContainerId,
     }),
     [
       todosMap,
@@ -71,6 +75,8 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
       currentSelectedTodoId,
       setCurrentSelectedTodoId,
       dragActiveId,
+      currentSelectedContainerId,
+      setCurrentSelectedContainerId,
     ]
   )
 

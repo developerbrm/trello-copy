@@ -12,6 +12,9 @@ const TodoContainer = () => {
 
   return (
     <>
+      <h1 className="mx-auto my-10 text-center text-7xl font-black text-stone-800">
+        Trello Copy
+      </h1>
       <div className="container m-10 mx-auto grid w-[min(90%,1200px)] auto-rows-fr grid-cols-1 justify-between gap-5 md:grid-cols-2 lg:grid-cols-3">
         <TodoSection status="pending" />
         <TodoSection status="in-progress" />

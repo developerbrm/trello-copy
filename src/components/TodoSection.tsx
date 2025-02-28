@@ -66,11 +66,11 @@ const TodoSection = (props: ITodoSection) => {
               className={`${sectionHeadingClassName} sticky top-0 z-10 bg-gradient-to-r bg-clip-text pb-0 text-3xl font-bold text-transparent backdrop-blur-2xl`}
             >
               <div className="m-3 flex items-center justify-start">
-                <RxDragHandleDots1
+                {/* <RxDragHandleDots1
                   {...listeners}
                   size={22}
                   className="cursor-grab text-slate-700"
-                />
+                /> */}
                 <span>{heading}</span>
               </div>
               <hr

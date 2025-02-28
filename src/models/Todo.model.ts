@@ -4,6 +4,7 @@ import { UiState } from '../utilities'
 export interface TodoState extends UiState {
   data: TodoItem[]
   updateTodo: UiState
+  addTodo: UiState
 }
 
 export type TodoStatus = 'pending' | 'in-progress' | 'completed'
@@ -12,8 +13,8 @@ export interface TodoItem {
   id: string
   todo: string
   completed?: boolean
-  userId: number
-  status: TodoStatus
+  userId?: string
+  status?: TodoStatus
   dragId?: UniqueIdentifier
 }
 
@@ -26,6 +27,10 @@ export interface DragAndDropContextInterface {
   >
   currentSelectedTodoId: null | string
   setCurrentSelectedTodoId: React.Dispatch<React.SetStateAction<string | null>>
+  currentSelectedContainerId: null | TodoStatus
+  setCurrentSelectedContainerId: React.Dispatch<
+    React.SetStateAction<TodoStatus | null>
+  >
   dragActiveId: UniqueIdentifier | null
 }
 
