@@ -17,7 +17,7 @@ interface ITodoSection {
 
 const TodoSection = (props: ITodoSection) => {
   const { status } = props
-  const { todosMap, dragActiveId } = useContext(DragAndDropContext)
+  const { todosMap } = useContext(DragAndDropContext)
 
   const {
     todos,
@@ -78,7 +78,6 @@ const TodoSection = (props: ITodoSection) => {
             </h3>
 
             <SortableContext
-              disabled={dragActiveId !== null}
               items={getItemIds(todosMap, status)}
               strategy={verticalListSortingStrategy}
             >
