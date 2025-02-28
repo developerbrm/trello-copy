@@ -35,7 +35,9 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const todos = useAppSelector((state) => state.todos.data)
 
   const [todosMap, setTodosMap] = useState<TodosMapInterface>(defaultTodosMap)
-  const [showUpdateTodoModal, setShowUpdateTodoModal] = useState<boolean>(false)
+  const [showUpdateTodoModal, setShowUpdateTodoModal] = useState<
+    'edit' | 'add' | null
+  >(null)
   const [currentSelectedTodoId, setCurrentSelectedTodoId] = useState<
     string | null
   >(null)

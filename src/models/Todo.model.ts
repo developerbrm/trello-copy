@@ -20,8 +20,10 @@ export interface TodoItem {
 export interface DragAndDropContextInterface {
   todosMap: TodosMapInterface
   setTodosMap: React.Dispatch<React.SetStateAction<TodosMapInterface>>
-  showUpdateTodoModal: boolean
-  setShowUpdateTodoModal: React.Dispatch<React.SetStateAction<boolean>>
+  showUpdateTodoModal: 'add' | 'edit' | null
+  setShowUpdateTodoModal: React.Dispatch<
+    React.SetStateAction<'add' | 'edit' | null>
+  >
   currentSelectedTodoId: null | string
   setCurrentSelectedTodoId: React.Dispatch<React.SetStateAction<string | null>>
   dragActiveId: UniqueIdentifier | null

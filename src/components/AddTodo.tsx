@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { TodoStatus } from '../models/Todo.model'
 import { IoAddCircleOutline } from 'react-icons/io5'
+import { DragAndDropContext } from '../Providers/DragAndDropContext'
 
 interface IProps {
   className?: string
@@ -18,8 +19,16 @@ const extraClasses = {
 const AddTodo = (props: IProps) => {
   const { status } = props
 
+  const { setShowUpdateTodoModal } = useContext(DragAndDropContext)
+
+  const handleAddClick = () => {
+    setShowUpdateTodoModal('add')
+  }
+
   return (
     <button
+      name="add-todo"
+      onClick={handleAddClick}
       className={`${extraClasses[status]} my-2 mb-3 flex w-fit cursor-pointer items-center justify-start gap-1 rounded-lg bg-gradient-to-r px-3 py-2 ring-2 transition-all`}
     >
       <IoAddCircleOutline size={24} />

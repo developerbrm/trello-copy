@@ -37,7 +37,7 @@ const Todo = (props: TodoProps) => {
 
   const handleEditClick = () => {
     setCurrentSelectedTodoId(todo.id)
-    setShowUpdateTodoModal(true)
+    setShowUpdateTodoModal('edit')
   }
 
   return (
