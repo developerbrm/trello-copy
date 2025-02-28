@@ -10,6 +10,7 @@ import { DragAndDropContext } from '../Providers/DragAndDropContext'
 import { getContainerIds, getItemIds, getSectionData } from '../utilities'
 import Todo from './Todo'
 import { RxDragHandleDots1 } from 'react-icons/rx'
+import AddTodo from './AddTodo'
 
 interface ITodoSection {
   status: TodoStatus
@@ -85,6 +86,10 @@ const TodoSection = (props: ITodoSection) => {
                 <Todo key={todo.id} todo={todo} todoClassName={todoClassName} />
               ))}
             </SortableContext>
+
+            <div className={`mx-3`}>
+              <AddTodo className={sectionClassName} status={status} />
+            </div>
           </div>
         </div>
       </div>
