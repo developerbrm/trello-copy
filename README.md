@@ -1,4 +1,6 @@
 # Trello Copy
+![Screenshot 2025-03-01 at 00-53-03 Trello Copy](https://github.com/user-attachments/assets/496ef7ca-1384-4238-99c1-6029e138ffec)
+
 
 This is a Trello-like application built with React and TypeScript, featuring drag-and-drop functionality using the `@dnd-kit` library. The app allows users to manage tasks across different statuses, such as "Pending", "In Progress", and "Completed".
 
