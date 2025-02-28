@@ -19,7 +19,7 @@ export const todoSlice = createSlice({
   },
   extraReducers: (builder) => {
     // fetch all todos
-    builder.addCase(fetchAllTodos.pending, (state, action) => {
+    builder.addCase(fetchAllTodos.pending, (state) => {
       state.loading = true
     })
     builder.addCase(fetchAllTodos.fulfilled, (state, action) => {
@@ -33,7 +33,7 @@ export const todoSlice = createSlice({
     })
 
     // update todo
-    builder.addCase(updateTodo.pending, (state, action) => {
+    builder.addCase(updateTodo.pending, (state) => {
       state.updateTodo.loading = true
     })
     builder.addCase(
@@ -41,7 +41,7 @@ export const todoSlice = createSlice({
       (
         state,
         action: PayloadAction<
-          void | { data: any; updateRedux: boolean },
+          void | { data: TodoItem; updateRedux: boolean },
           string,
           {
             arg: {
@@ -80,7 +80,7 @@ export const todoSlice = createSlice({
     })
 
     // add todo
-    builder.addCase(addTodo.pending, (state, action) => {
+    builder.addCase(addTodo.pending, (state) => {
       state.addTodo.loading = true
     })
     builder.addCase(
@@ -89,9 +89,9 @@ export const todoSlice = createSlice({
         state,
         action: PayloadAction<
           void | {
-            data: any
+            data: TodoItem
             updateRedux: boolean
-            currentSelectedContainerId: TodoStatus
+            currentSelectedContainerId: TodoStatus | undefined
           },
           string,
           {
@@ -99,7 +99,7 @@ export const todoSlice = createSlice({
               todo: TodoItem
               callback?: (() => void) | undefined
               updateRedux?: boolean | undefined
-              currentSelectedContainerId?: TodoStatus
+              currentSelectedContainerId?: TodoStatus | undefined
             }
             requestId: string
             requestStatus: 'fulfilled'

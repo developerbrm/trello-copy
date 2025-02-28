@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react'
+import { TodoItem } from '../models/Todo.model'
 import { DragAndDropContext } from '../Providers/DragAndDropContext'
-import { findTodo } from '../utilities'
-import { useAppDispatch, useAppSelector } from '../redux/store'
 import { addTodo, updateTodo } from '../redux/slices/todoSlice/thunks'
-import { TodoItem, TodoStatus } from '../models/Todo.model'
+import { useAppDispatch, useAppSelector } from '../redux/store'
+import { findTodo } from '../utilities'
 import Spinner from './Spinner'
 
 interface IUpdateTodoModal {

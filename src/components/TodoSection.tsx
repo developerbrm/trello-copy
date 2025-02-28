@@ -8,9 +8,8 @@ import { useContext } from 'react'
 import { TodoStatus } from '../models/Todo.model'
 import { DragAndDropContext } from '../Providers/DragAndDropContext'
 import { getContainerIds, getItemIds, getSectionData } from '../utilities'
-import Todo from './Todo'
-import { RxDragHandleDots1 } from 'react-icons/rx'
 import AddTodo from './AddTodo'
+import Todo from './Todo'
 
 interface ITodoSection {
   status: TodoStatus
@@ -28,19 +27,13 @@ const TodoSection = (props: ITodoSection) => {
     todoClassName,
   } = getSectionData(status, todosMap)
 
-  const {
-    attributes,
-    setNodeRef,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: status,
-    data: {
-      type: 'container',
-    },
-  })
+  const { attributes, setNodeRef, transform, transition, isDragging } =
+    useSortable({
+      id: status,
+      data: {
+        type: 'container',
+      },
+    })
 
   const style = {
     transform: CSS.Transform.toString(transform),

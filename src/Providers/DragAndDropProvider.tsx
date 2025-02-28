@@ -1,7 +1,6 @@
 import {
   closestCenter,
   DndContext,
-  DragEndEvent,
   DragMoveEvent,
   DragStartEvent,
   KeyboardSensor,
@@ -13,22 +12,17 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import React, { useEffect, useMemo, useState } from 'react'
 import UpdateTodoModal from '../components/UpdateTodoModal'
-import {
-  DragItemType,
-  TodoItem,
-  TodosMapInterface,
-  TodoStatus,
-} from '../models/Todo.model'
+import { TodoItem, TodosMapInterface, TodoStatus } from '../models/Todo.model'
+import { updateTodoReduxData } from '../redux/slices/todoSlice'
 import { fetchAllTodos, updateTodo } from '../redux/slices/todoSlice/thunks'
 import { useAppDispatch, useAppSelector } from '../redux/store'
-import { defaultTodosMap, DragAndDropContext } from './DragAndDropContext'
 import {
   findTodo,
   findTodoIndex,
   getContainerIds,
   updateTodosMap,
 } from '../utilities'
-import { updateTodoReduxData } from '../redux/slices/todoSlice'
+import { defaultTodosMap, DragAndDropContext } from './DragAndDropContext'
 
 const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch()
@@ -104,7 +98,9 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
 
     const activeItem = findTodo(activeItemDragId, todos, 'dragId')
     const overItem = findTodo(overItemDragId, todos, 'dragId')
-    const finalStatus = getContainerIds(todosMap).includes(over.id)
+    const finalStatus = getContainerIds(todosMap).includes(
+      over.id as TodoStatus
+    )
       ? over.id
       : overItem?.status
 
@@ -124,7 +120,7 @@ const DragAndDropProvider = ({ children }: { children: React.ReactNode }) => {
 
       const payload: TodoItem = {
         ...activeItem,
-        status: finalStatus,
+        status: finalStatus as TodoStatus,
       }
 
       const newTodos: TodoItem[] = todos.map((todo) =>

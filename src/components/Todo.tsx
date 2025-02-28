@@ -5,6 +5,7 @@ import { RxDragHandleDots1 } from 'react-icons/rx'
 import { MdModeEditOutline } from 'react-icons/md'
 import { useContext } from 'react'
 import { DragAndDropContext } from '../Providers/DragAndDropContext'
+import { UniqueIdentifier } from '@dnd-kit/core'
 
 interface TodoProps {
   todo: TodoItem
@@ -24,7 +25,7 @@ const Todo = (props: TodoProps) => {
     transition,
     isDragging,
   } = useSortable({
-    id: todo.dragId,
+    id: todo.dragId as UniqueIdentifier,
     data: {
       type: 'item',
     },
@@ -36,7 +37,7 @@ const Todo = (props: TodoProps) => {
   }
 
   const handleEditClick = () => {
-    setCurrentSelectedTodoId(todo.id)
+    setCurrentSelectedTodoId(todo.id.toString())
     setShowUpdateTodoModal('edit')
   }
 
