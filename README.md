@@ -33,6 +33,7 @@ This is a Trello-like application built with React and TypeScript, featuring dra
    ```
 
    The application will be available at `http://localhost:5173/trello-copy/`.
+   or the deployment can also be accessed at - `https://developerbrm.github.io/trello-copy/`
 
 ## Deployment
 
